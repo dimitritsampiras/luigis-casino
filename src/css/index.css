@@ -11,3 +11,71 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.mini-game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.cards-container {
+  display: flex;
+}
+
+.actions-container {
+  display: flex;
+  height: 150px;
+}
+
+.game-feed {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.game-feed>h3 {
+  width: 150px;
+  margin: 0;
+  margin-top: 5px;
+}
+
+.action-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  width: 150px;
+  height: 40px;
+  border-radius: 9999px;
+  outline: none;
+  border: none;
+  /* margin-top: 10px; */
+  margin-right: 10px;
+  font-weight: bold;
+  box-shadow: 0px 7px 15px -2px rgba(0, 0, 0, 0.068);
+  transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+
+.btn:hover {
+  cursor: pointer;
+  transform: translateY(-3px);
+}
+
+.bet {
+  background-color: white;
+  color: rgb(1, 194, 130);
+}
+
+.action {
+  background-color: white;
+  color: rgb(194, 1, 1);
+}
