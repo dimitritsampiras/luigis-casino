@@ -6,7 +6,7 @@ export const Game = (props) => {
 
   return (
     <>
-      <MemoryMaster coins={coins} handleButtonClick={handleButtonClick} />
+      <MemoryMaster coins={coins} />
     </>
   );
 };
