@@ -5,11 +5,10 @@ import '../css/Card.css';
 import iconSelector from '../utils/iconSelector';
 
 export const Card = (props) => {
-  const [face, setFace] = useState(props.face);
 
   return (
     <ReactCardFlip
-      isFlipped={face === 'back'}
+      isFlipped={props.face === 'back'}
       flipDirection="horizontal"
       containerStyle={extraStyles}
     >
@@ -24,4 +23,4 @@ export const Card = (props) => {
   );
 };
 
-const extraStyles = { width: '166px', height: '249px', margin: '10px' };
+const extraStyles = { width: '150px', height: '225px', margin: '15px' };

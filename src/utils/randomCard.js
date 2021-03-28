@@ -9,6 +9,3 @@ export default function randomCard() {
   const cards = ['mario', 'luigi', 'star', 'mushroom', 'fireflower', 'cloud'];
   return cards[Math.floor(Math.random() * cards.length)];
 }
-
-
-randomCard() //-> mario

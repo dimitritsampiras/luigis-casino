@@ -9,6 +9,10 @@
   border-radius: 20px;
 }
 
+.card-back:hover,
+.card-front:hover {
+  cursor: pointer;
+}
 
 .card-front {
   color: white;
@@ -17,6 +21,8 @@
 
 .card-front.focus {
   transform: translateY(-10px);
+  border: 3px solid rgb(55, 243, 180);
+  border-radius: 20px;
 }
 
 .card-back {
@@ -26,4 +32,5 @@
 .card-front > img {
   width: 50%;
   user-select: none;
+  -webkit-user-drag: none;
 }
