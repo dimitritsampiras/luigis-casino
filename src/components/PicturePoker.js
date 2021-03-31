@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { bestHand } from '../utils/bestHand';
 import randomCard from '../utils/randomCard';
 import { Card } from './Card';
+import '../css/PicturePoker.css'
 
 export const PicturePoker = (props) => {
   const initialGameState = {
