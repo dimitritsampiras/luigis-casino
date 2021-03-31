@@ -1,0 +1,13 @@
+.card {
+    height: 120px;
+    width: 80px;
+    margin: 10px;
+    border-radius: 20px;
+    border-width: 0.5px;
+    border: 1px solid #ececec;
+    background-color: white;
+}
+.icon {
+    height: 60px;
+    width: 60px;
+}
