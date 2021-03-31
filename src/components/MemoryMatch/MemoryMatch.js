@@ -16,9 +16,7 @@ export const MemoryMatch = (props) => {
   useEffect(() => {
     setCards(createDeck)
   }, []);
-
   const handleClick = (id) => setFlipped([... flipped, id])
-
   return (
     <div className="mini-game-container">
       <h2>Memory Match</h2>

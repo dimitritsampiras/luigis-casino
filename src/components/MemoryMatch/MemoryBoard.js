@@ -5,7 +5,6 @@ import {MemoryCard} from './MemoryCard.js'
 export const MemoryBoard = ({cards, flipped, handleClick}) =>{
     return(
         <div className="wrapper">
-            <div className="card">
             {
                 cards.map((card) => (
                 <MemoryCard
@@ -17,10 +16,9 @@ export const MemoryBoard = ({cards, flipped, handleClick}) =>{
                     handleClick = {() => handleClick(card.id)} //handle click event 
                   />))
             }
-            </div>
         </div>
         // <div className="board">
-            
+
         // </div>   
     );
 }

@@ -10,7 +10,6 @@ const shuffle = (arr) =>{
     }
     return ran
 }
-
 export const createDeck = () => {
     let id = 0
     const cards = ['mario', 'fireflower', 'mushroom', 'cloud', 'luigi', 'star'].reduce((accumulator, icon) => {

@@ -9,6 +9,7 @@ ReactDOM.render(
   <React.StrictMode>
     <div style={{ display: 'flex' }}>
       <MemoryMatch />
+      
     </div>
   </React.StrictMode>,
   document.getElementById('root')

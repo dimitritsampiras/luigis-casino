@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import BackIcon from '../../assets/card_back.png';
+import BackIcon from '../../assets/back.png';
 import '../../css/MemoryMatch.css';
 import '../../css/Card.css';
 import ReactCardFlip from 'react-card-flip'
@@ -13,7 +13,6 @@ export const MemoryCard = ({id, icon, width, height, flipped, handleClick}) => {
           <img style={{width, height}}
                     src={BackIcon}
             />
-          
         </div>
         <div style={{width, height}}>
             <img style={{width, height}} src={iconSelector(icon)}></img>
@@ -33,4 +32,4 @@ export const MemoryCard = ({id, icon, width, height, flipped, handleClick}) => {
         // </div>
     );
 };
-const extraStyles = { width: '150px', height: '225px', margin: '15px' };
+const extraStyles = { width: '150px', height: '225px', margin: '40px', marginBottom: '-25px' };
