@@ -25,13 +25,21 @@ code {
   height: 100vh;
 }
 
+.hand-h1 {
+  font-size: 1rem;
+  color: rgb(101, 102, 105);
+  margin: 0;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
 .cards-container {
   display: flex;
 }
 
 .cards-container.users {
   display: flex;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .actions-container {
@@ -41,13 +49,13 @@ code {
 
 .game-feed {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-right: 40px;
 }
 
-.game-feed>h3 {
+.game-feed > h3 {
   width: 150px;
   margin: 0;
   margin-top: 5px;
@@ -73,7 +81,6 @@ code {
   transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-
 .btn:hover {
   cursor: pointer;
   transform: translateY(-3px);
@@ -94,7 +101,6 @@ code {
   cursor: default;
   transform: translateY(0);
 }
-
 
 .btn.disabled {
   background-color: rgb(231, 231, 231);

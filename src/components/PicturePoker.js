@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { bestHand } from '../utils/bestHand';
 import randomCard from '../utils/randomCard';
 import { Card } from './Card';
 
@@ -76,7 +77,6 @@ export const PicturePoker = (props) => {
       const newArray = prev.luigisHand.map((card) => {
         return [card[0], 'front'];
       });
-      console.log('new array', newArray);
       return {
         ...prev,
         luigisHand: newArray
@@ -131,11 +131,18 @@ export const PicturePoker = (props) => {
     });
   }, [board]);
 
+  useEffect(() => {
+    console.log('best hand', bestHand(board.usrHand, board.luigisHand));
+  }, [gameState.roundStage]);
+
   return (
     <div className="mini-game-container">
       {/*
         luigi's cards
       */}
+      <h1 className="hand-h1" style={{ marginTop: '0' }}>
+        Luigi's hand
+      </h1>
       <div className="cards-container">
         {board.luigisHand.map((card, key) => {
           return (
@@ -151,6 +158,7 @@ export const PicturePoker = (props) => {
       {/* 
         users's cards
       */}
+      <h1 className="hand-h1">Your hand</h1>
       <div className="cards-container users">
         {board.usrHand.map((card, key) => {
           return (
@@ -168,8 +176,30 @@ export const PicturePoker = (props) => {
         {coins > 0 ? (
           <>
             <div className="game-feed">
-              <h3>Your coins: {coins}</h3>
-              <h3>Current Bet: {bet}</h3>
+              <h3>
+                <span
+                  style={{
+                    color: 'rgb(101, 102, 105)',
+                    fontWeight: '500',
+                    marginRight: '5px'
+                  }}
+                >
+                  Your coins:
+                </span>{' '}
+                {coins}
+              </h3>
+              <h3>
+                <span
+                  style={{
+                    color: 'rgb(101, 102, 105)',
+                    fontWeight: '500',
+                    marginRight: '5px'
+                  }}
+                >
+                  Current Bet:
+                </span>
+                {bet}
+              </h3>
             </div>
             <div className="action-btns">
               {gameState.roundStage === 'betting' ? (
