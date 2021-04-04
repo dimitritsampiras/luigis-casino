@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { PairCard } from './PairCard';
-import { PopUp } from './PopUp';
-import { RuleWindow } from './RuleWindow';
+import { PopUp, OutCoinWindow, RuleWindow} from './PopUp';
 import ReactCountdownClock from 'react-countdown-clock';
+import { ToastContainer, toast } from 'react-toastify';
+
 import coin from './../../assets/coin.png';
 import medal from './../../assets/medal.png';
-import './../../css/pairAGone/PairAGone.css'
+import './../../css/pairAGone/PairAGone.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 class PairAGone extends Component{
     constructor(props) {
@@ -13,12 +15,13 @@ class PairAGone extends Component{
         this.state = {
             deck: [],
             numCard: 20,
-            coin: 0,
+            coin: props.coin,
             score: 0,
             timer: 0,
 
             gameState: false,
             isRuleWindow: true,
+            isOutCoinWindow: false,
             timeUp: false,
 
             previousSelectCardId: null,
@@ -26,23 +29,61 @@ class PairAGone extends Component{
             previousSelectCardName: null,
 
         }
+        this.coin = props.coin;
         this.score = 0;
         this.board = [];
+        this.isPlaceBet = false;
         this.timeout = 20000;
     }
 
+
     // handle start game click
     handleStartGameClick = () => {
-        this.setState({isRuleWindow: false,gameState: true});
-        this.initGame();
+        if (this.isPlaceBet) {
+            this.setState({isRuleWindow: false, gameState: true});
+            this.initGame();
+            this.isPlaceBet = false;
+        }
+        else {
+            this.betNotPlaced();
+        }
     }
 
     // hanle replay the game
     handleReplay = () => {
-        this.score = 0;
-        this.setState({score : 0, gameState: true, timeUp: false})
-        this.initGame();
+        this.handlePlaceBet();
+        if (this.isPlaceBet) {
+            this.score = 0;
+            this.setState({score : 0, gameState: true, timeUp: false})
+            this.initGame();
+            this.isPlaceBet = false;
+        }
+        else {
+            this.betNotPlaced();
+        }
     }
+
+    // handle the place bet
+    handlePlaceBet = () => {
+        // if run out of coin, pop up the exit game window
+        if (this.state.coin == 0) {
+            this.setState({isOutCoinWindow: true, isRuleWindow: false, timeUp:false});
+        }
+        // else place one bet
+        else {
+            this.coin = this.coin - 1;
+            this.isPlaceBet = true;
+            this.setState({coin: this.coin});
+            this.betPlaced();
+        }
+
+    }
+
+    // notification: bet is not placed
+    betNotPlaced = () => toast.error("Please place a bet!")
+
+    // notification: bet is placed
+    betPlaced = () => toast.info("You have placed 1 coin 💰!")
 
     // create a deck with 20 cards.
     initGame = () => {
@@ -230,17 +271,19 @@ class PairAGone extends Component{
     render() {
         return (
             <div className="pair-view-body">
+                <ToastContainer />
                 <div>
                     {this.state.timeUp && 
-                        <div> 
-                            <PopUp
-                                handleReplay={this.handleReplay}
-                                score={this.state.score}
-                            />
-                        </div>
+                        <PopUp
+                            handleReplay={this.handleReplay}
+                            score={this.state.score}
+                        />
                     }
                     {this.state.isRuleWindow &&
                         <RuleWindow/>
+                    }
+                    {this.state.isOutCoinWindow && 
+                        <OutCoinWindow/>
                     }
                 </div>
                 <div>
@@ -277,7 +320,7 @@ class PairAGone extends Component{
                     <button className="pair-btn pair-bet" onClick={this.handleStartGameClick}>
                         Start
                     </button>
-                    <button className="pair-btn pair-bet">
+                    <button className="pair-btn pair-bet" onClick={this.handlePlaceBet}>
                         place bet
                     </button>
                     <div className="pair-score-div">
