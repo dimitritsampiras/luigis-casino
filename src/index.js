@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Card } from './components/Card';
 import { MemoryMatch } from './components/MemoryMatch/MemoryMatch';
 import { PicturePoker } from './components/PicturePoker';
+import PairAGone  from  './components/PairAGone';
 import './css/index.css';
 
 ReactDOM.render(
@@ -11,6 +12,9 @@ ReactDOM.render(
       <MemoryMatch />
       
     </div>
+    {/* <div>
+      <PairAGone />
+    </div> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

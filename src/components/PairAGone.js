@@ -1,0 +1,234 @@
+import React, { Component } from 'react';
+import PairCard from './PairCard';
+import './../css/PairAGone.css';
+
+class PairAGone extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            deck: [],
+            numCard: 20,
+            coin: 0,
+
+            gameState: false,
+
+            previousSelectCardId: null,
+            previousSelectCardValue: null,
+            previousSelectCardName: null,
+
+        }
+        this.board = [];
+        this.timeout = 2000;
+    }
+
+    // create a deck with 20 cards.
+    componentDidMount = () => {
+        // create a deck
+        var cardList = [];
+        var cardName = 1;
+        for (var i = 0; i < this.state.numCard; i++) {
+            cardList.push({name: cardName, value: i, onChange: this.onUpdateDeck, display:true, id: 0, row:0, column:0})
+            var j = i+1
+            if(j % 4 == 0) {
+              cardName++;
+            }
+        }
+        cardList = this.shuffle(cardList);
+        
+        var row = 0
+        var column = 0
+        for (var i = 0; i < this.state.numCard; i++) {
+            cardList[i].id = i
+            cardList[i].row = row
+            cardList[i].column = column
+
+            if (column == 4) {
+                row++;
+                column = 0;
+            }
+            else {
+                column ++;
+            }
+        }
+        this.board = cardList;
+        this.setState({deck: cardList});
+        // set a game timer
+        setTimeout(() => {this.setState({gameState:true})}, this.timeout);
+    };
+
+    // shuffle deck 
+    shuffle = (array) => {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+        while (0 != currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+        return array;
+    }
+
+    onUpdateDeck = (event) => {
+        // first select card
+        if (this.state.previousSelectCardValue == null) {
+            this.setState({
+                previousSelectCardId : event.currentTarget.id,
+                previousSelectCardName : event.currentTarget.name,
+                previousSelectCardValue : event.currentTarget.value,
+            })
+        }
+        // second select card and find a pair
+        else if (this.state.previousSelectCardName == event.currentTarget.name && this.state.previousSelectCardValue != event.currentTarget.value){
+            if (this.isAdjacent(this.board, parseInt(this.state.previousSelectCardId), parseInt(event.currentTarget.id))) {
+                // remove the two cards
+                var index = parseInt(event.currentTarget.id);
+                this.setState((state)=> {
+                    const deck = state.deck;
+                    deck[state.previousSelectCardId].display = false;
+                    deck[index].display = false;
+                    return deck;
+                });
+
+                // adjust the card position
+                this.board = this.shiftDeck(this.board, this.state.previousSelectCardId, event.currentTarget.id);
+                this.setState({deck: this.board});
+
+                this.setState({
+                    previousSelectCardId : null,
+                    previousSelectCardName : null,
+                    previousSelectCardValue : null
+                });
+            }
+            else {
+                this.setState({
+                    previousSelectCardId : null,
+                    previousSelectCardName : null,
+                    previousSelectCardValue : null
+                });
+            }
+        }
+        else {
+            this.setState({
+                previousSelectCardId : null,
+                previousSelectCardName : null,
+                previousSelectCardValue : null
+            });
+        }
+
+    }
+
+
+    // adjust the card position
+    shiftDeck = (shiftDeck, preIndex, curIndex) => {
+        const updateShiftDeck = shiftDeck;
+
+        // set the previous select card to -100
+        updateShiftDeck[preIndex].row = -100;
+        updateShiftDeck[preIndex].column = -100;
+        // shift the rest of the card
+        for (var card = parseInt(preIndex) + 1; card < 20; card ++) {
+            // move every thing that is not in the first column
+            if (updateShiftDeck[card].column != 0) {
+                updateShiftDeck[card].column --;
+                // console.log("id : " + updateShiftDeck[card].id + "name : " + updateShiftDeck[card].name);
+            }
+
+            // move every thing that is in the first column but not first row
+            else if (updateShiftDeck[card].column == 0 && updateShiftDeck[card].row != 0) {
+                updateShiftDeck[card].column = 4;
+                updateShiftDeck[card].row--;
+            }
+        }
+
+        // set the current select card to -100
+        updateShiftDeck[curIndex].row = -100;
+        updateShiftDeck[curIndex].column = -100;
+
+        // shift the rest of the card
+        for (var card = parseInt(curIndex) + 1; card < 20; card ++) {
+            // move every thing that is not in the first column
+            if (updateShiftDeck[card].column != 0) {
+                updateShiftDeck[card].column --;
+                // console.log("id : " + updateShiftDeck[card].id + "name : " + updateShiftDeck[card].name);
+            }
+
+            // move every thing that is in the first column but not first row
+            else if (updateShiftDeck[card].column == 0 && updateShiftDeck[card].row != 0) {
+                updateShiftDeck[card].column = 4;
+                updateShiftDeck[card].row--;
+            }
+        }
+        this.board = updateShiftDeck;
+        return updateShiftDeck;
+    }
+
+
+    //create a board to detect adjacent 
+    isAdjacent = (board, preIndex, curIndex) => {
+        // case one: two card are adjacent in the same row
+        console.log("previous select column : " + board[preIndex].column + " , current select column : " + board[curIndex].column);
+        console.log("previous select row : " + board[preIndex].row + " , current select row : " + board[curIndex].row);
+        if (board[preIndex].row == board[curIndex].row) {
+            if (board[preIndex].column == board[curIndex].column -1 || board[preIndex].column == board[curIndex].column + 1){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        // case two: two card are adjacent in the same column
+        else if ( board[preIndex].row == board[curIndex].row -1 || board[preIndex].row == board[curIndex].row + 1) {
+            if (board[preIndex].column == board[curIndex].column) {
+                return true;
+            }
+            // case three: two card are in diagone
+            else if (board[preIndex].column == board[curIndex].column -1 || board[preIndex].column == board[curIndex].column + 1) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    render() {
+        return (
+            <div className="view-body">
+                <div className="view-container">
+                    <div className="board-container">
+                        {this.state.deck.length > 0 && this.state.deck.map((card) => {
+                            if (card != undefined && card.display != false) {
+                                return(
+                                    <PairCard 
+                                      name={card.name}
+                                      value={card.value}
+                                      onChange={card.onChange}
+                                      id={card.id}
+                                    />
+                                )
+                            }
+                        })
+                        }
+                    </div>
+                </div>
+                <div>
+                    coin : {this.state.coin}
+                </div>
+                <div>
+                    number of cards : {this.state.numCard}
+                </div>
+                <button>start game</button>
+                <button>place bet</button>
+            </div>
+          );
+        }
+}
+
+export default PairAGone;
