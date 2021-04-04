@@ -8,7 +8,8 @@ export const Game = (props) => {
   return (
     <>
       <MemoryMaster coins={coins} />
-      <PairAGone />
+      {/* <PairAGone /> */}
     </>
   );
+  return;
 };

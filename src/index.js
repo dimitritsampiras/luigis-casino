@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Card } from './components/Card';
+import { MemoryMatch } from './components/MemoryMatch/MemoryMatch';
 import { PicturePoker } from './components/PicturePoker';
 import PairAGone  from  './components/PairAGone';
 import './css/index.css';
@@ -7,11 +9,12 @@ import './css/index.css';
 ReactDOM.render(
   <React.StrictMode>
     <div style={{ display: 'flex' }}>
-      <PicturePoker />
+      <MemoryMatch />
+      
     </div>
-    <div>
+    {/* <div>
       <PairAGone />
-    </div>
+    </div> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
