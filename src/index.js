@@ -13,7 +13,7 @@ ReactDOM.render(
       
     </div> */}
     <div>
-      <PairAGone />
+      <PairAGone coin={1}/>
     </div>
   </React.StrictMode>,
   document.getElementById('root')
