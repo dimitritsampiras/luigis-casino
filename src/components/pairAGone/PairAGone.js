@@ -135,7 +135,12 @@ class PairAGone extends Component{
             this.setState({score : this.score});
         }
         else {
+            // handle the click effect
+            this.board[this.state.previousSelectCardId].isFocused = false;
+            this.board[event.currentTarget.id].isFocused = false;
+
             this.setState({
+                deck: this.board,
                 previousSelectCardId : null,
                 previousSelectCardName : null,
                 previousSelectCardValue : null
